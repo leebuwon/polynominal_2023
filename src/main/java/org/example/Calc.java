@@ -1,8 +1,14 @@
 package org.example;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class Calc {
 
     public static int run(String str){
+        // 단항이 입력되면 그대로 리턴한다.
+        if (!str.contains(" ")) return Integer.parseInt(str);
+
         boolean needToMultiple = str.contains("*");
         boolean needToPlus = str.contains("+");
 
@@ -11,7 +17,12 @@ public class Calc {
         if (needToCompound){
             String[] bits = str.split(" \\+ ");
 
-            return Integer.parseInt(bits[0]) + run(bits[1]);
+            String newStr = Arrays.stream(bits)
+                    .mapToInt(Calc::run)
+                    .mapToObj(e -> e + "")
+                    .collect(Collectors.joining(" + "));
+
+            return run(newStr);
         }
 
         if (needToPlus) {
