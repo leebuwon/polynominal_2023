@@ -10,7 +10,7 @@ public class Calc {
         if (!str.contains(" ")) return Integer.parseInt(str);
 
         boolean needToMultiple = str.contains("*");
-        boolean needToPlus = str.contains("+");
+        boolean needToPlus = str.contains("+") || str.contains("-");
 
         boolean needToCompound = needToMultiple && needToPlus;
 
