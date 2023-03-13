@@ -4,7 +4,15 @@ public class Calc {
 
     public static int run(String str){
         boolean needToMultiple = str.contains("*");
-        boolean needToPlus = !needToMultiple;
+        boolean needToPlus = str.contains("+");
+
+        boolean needToCompound = needToMultiple && needToPlus;
+
+        if (needToCompound){
+            String[] bits = str.split(" \\+ ");
+
+            return Integer.parseInt(bits[0]) + run(bits[1]);
+        }
 
         if (needToPlus) {
             str = str.replaceAll("- ", "+ -");
