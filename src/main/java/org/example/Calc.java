@@ -21,26 +21,12 @@ public class Calc {
         boolean needToBracket = str.contains("(") || str.contains(")");
 
         if (needToBracket){
-            int bracketCount = 0;
-            int splitPointIndex = -1;
+            int splitPointIndex = findSplitPointIndex(str);
 
-            for (int i = 0; i < str.length(); i++){
-                if (str.charAt(i) == '('){
-                    bracketCount++;
-                }else if (str.charAt(i) == ')'){
-                    bracketCount--;
-                }
+            String firstStr = str.substring(0, splitPointIndex);
+            String secondStr = str.substring(splitPointIndex + 1);
 
-                if (bracketCount == 0) {
-                    splitPointIndex = i;
-                    break;
-                }
-            }
-
-            String firstStr = str.substring(0, splitPointIndex + 1);
-            String secondStr = str.substring(splitPointIndex + 4);
-
-            char operationCode = str.charAt(splitPointIndex + 2);
+            char operationCode = str.charAt(splitPointIndex);
 
             str = Calc.run(firstStr) + " " + operationCode + " " + Calc.run(secondStr);
 
@@ -89,6 +75,32 @@ public class Calc {
         }
 
         throw new RuntimeException("올바른 식이 아닙니다.");
+    }
+
+    private static int findSplitPointIndex(String str) {
+        int index = findSplitPointIndexBy(str, '+');
+
+        if (index >= 0) return index;
+
+        return findSplitPointIndexBy(str, '*');
+    }
+
+    private static int findSplitPointIndexBy(String str, char findChar) {
+        int bracketCount = 0;
+
+        for (int i = 0; i < str.length(); i++){
+            char c = str.charAt(i);
+
+            if (c == '('){
+                bracketCount++;
+            }
+            else if (c == ')'){
+                bracketCount--;
+            } else if ( c == findChar) {
+                if (bracketCount == 0) return i;
+            }
+        }
+        return -1;
     }
 
     // 괄호를 없애는 연산

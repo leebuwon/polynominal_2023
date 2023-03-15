@@ -127,4 +127,10 @@ public class CalcTests {
     void t20(){
         assertThat(Calc.run("(10 + 20) * 3")).isEqualTo(90);
     }
+
+    @Test
+    @DisplayName("10 + (10 + 5) = 25")
+    void t21(){
+        assertThat(Calc.run("10 + (10 + 5)")).isEqualTo(25);
+    }
 }
