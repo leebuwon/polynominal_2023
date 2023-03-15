@@ -20,8 +20,6 @@ public class Calc {
 
         boolean needToBracket = str.contains("(") || str.contains(")");
 
-
-
         if (needToBracket){
             int bracketCount = 0;
             int splitPointIndex = -1;
@@ -42,8 +40,11 @@ public class Calc {
             String firstStr = str.substring(0, splitPointIndex + 1);
             String secondStr = str.substring(splitPointIndex + 4);
 
-            return Calc.run(firstStr) + Calc.run(secondStr);
+            char operationCode = str.charAt(splitPointIndex + 2);
 
+            str = Calc.run(firstStr) + " " + operationCode + " " + Calc.run(secondStr);
+
+            return Calc.run(str);
         }
         else if (needToCompound){
             String[] bits = str.split(" \\+ ");
@@ -90,6 +91,7 @@ public class Calc {
         throw new RuntimeException("올바른 식이 아닙니다.");
     }
 
+    // 괄호를 없애는 연산
     private static String StripOutBracket(String str) {
         int outerBracketCount = 0;
 
